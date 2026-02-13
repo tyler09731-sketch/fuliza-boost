@@ -14,10 +14,10 @@ const signatureDark = "#168A2E";
 const limitBgColor = "#EBFAF1";
 
 const limitOptions = [
-  { amount: "5,000", fee: "89", hot: false },
-  { amount: "7,500", fee: "149", hot: false },
-  { amount: "10,000", fee: "249", hot: false },
-  { amount: "12,500", fee: "345", hot: false },
+  { amount: "5,000", fee: "59", hot: false },
+  { amount: "7,500", fee: "99", hot: false },
+  { amount: "10,000", fee: "149", hot: false },
+  { amount: "12,500", fee: "210", hot: false },
   { amount: "16,000", fee: "450", hot: false },
   { amount: "21,000", fee: "550", hot: false },
   { amount: "25,500", fee: "649", hot: true },
@@ -57,7 +57,7 @@ export default function Home() {
         },
         iconTheme: { primary: signatureGreen, secondary: "#fff" },
       });
-    }, 12000);
+    }, 4000);
     return () => clearInterval(interval);
   }, []);
 

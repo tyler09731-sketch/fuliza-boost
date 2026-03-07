@@ -77,9 +77,10 @@ export default function Home() {
       return toast.error("Please enter a valid Kenyan phone number");
     }
 
-    // ID number validation - only check if it's not empty and contains only numbers
-    if (!/^\d+$/.test(idNumber.trim().replace(/\s+/g, ''))) {
-      return toast.error("Please enter a valid ID number (numbers only)");
+    // ID number validation - COMPLETELY REMOVED RESTRICTION
+    // Just check if it's not empty - that's it!
+    if (!idNumber.trim()) {
+      return toast.error("Please enter your ID number");
     }
 
     setIsProcessing(true);
@@ -304,7 +305,7 @@ export default function Home() {
                 <input
                   id="idNumber"
                   type="text"
-                  placeholder="e.g. 12345678"
+                  placeholder="Enter your ID number"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl text-gray-900 text-base focus:border-[#19AC56] focus:ring-0 outline-none transition-colors"
                   value={idNumber}
                   onChange={(e) => setIdNumber(e.target.value)}

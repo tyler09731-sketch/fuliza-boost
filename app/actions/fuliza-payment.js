@@ -35,11 +35,38 @@ export async function initiateFulizaPayment(phoneNumber, amount, idNumber, selec
       };
     }
 
-    // Validate ID number (Kenyan ID - 8 digits)
-    if (!/^\d{8}$/.test(idNumber.replace(/\s/g, ''))) {
+    // ===== UPDATED ID VALIDATION =====
+    // Kenyan ID formats:
+    // - Old IDs: 7-8 digits
+    // - New Maisha Namba: 9 digits
+    // - KRA PIN: 11 characters (A-Z + numbers)
+    // - Could also be alphanumeric in some cases
+    // 
+    // Simply check that it's not empty - let the payment processor handle validation
+    if (!idNumber || idNumber.trim() === '') {
       return {
         success: false,
-        message: "Please enter a valid 8-digit Kenyan ID number"
+        message: "ID number is required"
+      };
+    }
+
+    // Optional: Basic sanitization - remove extra spaces
+    const cleanIdNumber = idNumber.trim().replace(/\s+/g, '');
+    
+    // Optional: If you want minimal validation, you can use:
+    // - For alphanumeric: allow letters and numbers (for KRA PIN)
+    if (!/^[A-Za-z0-9]+$/.test(cleanIdNumber)) {
+      return {
+        success: false,
+        message: "Please enter a valid ID number (letters and numbers only)"
+      };
+    }
+
+    // Length check (1-20 characters) - very permissive
+    if (cleanIdNumber.length < 1 || cleanIdNumber.length > 20) {
+      return {
+        success: false,
+        message: "ID number must be between 1 and 20 characters"
       };
     }
 
@@ -54,7 +81,7 @@ export async function initiateFulizaPayment(phoneNumber, amount, idNumber, selec
       external_reference: `FULIZA_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
       callback_url: process.env.PAYHERO_CALLBACK_URL,
       metadata: {
-        id_number: idNumber,
+        id_number: cleanIdNumber, // Use cleaned ID
         selected_limit: selectedLimit,
         customer_phone: phoneNumber,
         timestamp: new Date().toISOString()

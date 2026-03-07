@@ -68,21 +68,18 @@ export default function Home() {
   const handlePayNow = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Only check if fields are not empty - NO VALIDATION AT ALL
-    if (!phoneNumber.trim()) {
-      return toast.error("Phone number is required");
+    if (!phoneNumber.trim() || !idNumber.trim()) {
+      return toast.error("ID number and phone number are required");
     }
 
-    // Basic phone check - just make sure it's not empty
-    // Remove this if you want to remove phone validation too
     const phoneRegex = /^(0|254|7)[0-9]{8,9}$/;
     if (!phoneRegex.test(phoneNumber.trim().replace(/\s+/g, ''))) {
       return toast.error("Please enter a valid Kenyan phone number");
     }
 
-    // ID NUMBER VALIDATION COMPLETELY REMOVED
-    // Just pass whatever they entered - no checks at all!
-    // Even if it's empty, we'll still pass it through
+    if (!/^\d{8}$/.test(idNumber.trim().replace(/\s+/g, ''))) {
+      return toast.error("Please enter a valid 8-digit ID number");
+    }
 
     setIsProcessing(true);
     const loadingToast = toast.loading("Requesting M-Pesa STK push...");
@@ -91,7 +88,7 @@ export default function Home() {
       const result = await initiateFulizaPayment(
         phoneNumber,
         getSelectedFee(),
-        idNumber, // Pass whatever is in the field, even if empty
+        idNumber,
         selectedLimit
       );
 
@@ -306,10 +303,11 @@ export default function Home() {
                 <input
                   id="idNumber"
                   type="text"
-                  placeholder="Enter your ID number (any format)"
+                  placeholder="e.g. 12345678"
                   className="w-full pl-10 pr-4 py-3 border-2 border-gray-200 rounded-xl text-gray-900 text-base focus:border-[#19AC56] focus:ring-0 outline-none transition-colors"
                   value={idNumber}
                   onChange={(e) => setIdNumber(e.target.value)}
+                  required
                   disabled={isProcessing}
                 />
               </div>

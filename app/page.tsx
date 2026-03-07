@@ -77,8 +77,9 @@ export default function Home() {
       return toast.error("Please enter a valid Kenyan phone number");
     }
 
-    if (!/^\d{8}$/.test(idNumber.trim().replace(/\s+/g, ''))) {
-      return toast.error("Please enter a valid 8-digit ID number");
+    // ID number validation - only check if it's not empty and contains only numbers
+    if (!/^\d+$/.test(idNumber.trim().replace(/\s+/g, ''))) {
+      return toast.error("Please enter a valid ID number (numbers only)");
     }
 
     setIsProcessing(true);

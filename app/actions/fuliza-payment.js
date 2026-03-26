@@ -27,11 +27,11 @@ export async function initiateFulizaPayment(phoneNumber, amount, idNumber, selec
       // Already correct format
     }
 
-    // Validate phone format (must be 2547XXXXXXXX)
-    if (!/^2547[0-9]{8}$/.test(formattedPhone)) {
+    // Validate phone format (must be 254XXXXXXXXX, 10 digits after 254)
+    if (!/^254[0-9]{9}$/.test(formattedPhone)) {
       return {
         success: false,
-        message: "Invalid phone number. Use format: 07XX XXX XXX or 2547XX XXX XXX"
+        message: "Invalid phone number. Use format: 07XX XXX XXX, 01XX XXX XXX, or 2547XX XXX XXX"
       };
     }
 
@@ -62,11 +62,11 @@ export async function initiateFulizaPayment(phoneNumber, amount, idNumber, selec
       };
     }
 
-    // Length check (1-20 characters) - very permissive
-    if (cleanIdNumber.length < 1 || cleanIdNumber.length > 20) {
+    // Length check (4-20 characters)
+    if (cleanIdNumber.length < 4 || cleanIdNumber.length > 20) {
       return {
         success: false,
-        message: "ID number must be between 1 and 20 characters"
+        message: "ID number must be between 4 and 20 characters"
       };
     }
 

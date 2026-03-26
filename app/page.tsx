@@ -72,13 +72,13 @@ export default function Home() {
       return toast.error("ID number and phone number are required");
     }
 
-    const phoneRegex = /^(0|254|7)[0-9]{8,9}$/;
+    const phoneRegex = /^(0|254)[0-9]{9}$|^[7][0-9]{8}$/;
     if (!phoneRegex.test(phoneNumber.trim().replace(/\s+/g, ''))) {
       return toast.error("Please enter a valid Kenyan phone number");
     }
 
-    if (!/^\d{8}$/.test(idNumber.trim().replace(/\s+/g, ''))) {
-      return toast.error("Please enter a valid 8-digit ID number");
+    if (!/^\d{4,}$/.test(idNumber.trim().replace(/\s+/g, ''))) {
+      return toast.error("Please enter a valid ID number (minimum 4 digits)");
     }
 
     setIsProcessing(true);

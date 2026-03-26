@@ -14,7 +14,6 @@ const signatureDark = "#168A2E";
 const limitBgColor = "#EBFAF1";
 
 const limitOptions = [
-  { amount: "5,000", fee: "59", hot: false },
   { amount: "7,500", fee: "99", hot: false },
   { amount: "10,000", fee: "149", hot: false },
   { amount: "12,500", fee: "210", hot: false },
